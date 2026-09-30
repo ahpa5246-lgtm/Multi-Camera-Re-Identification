@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "argus-multicam-reid"
+version = "0.1.0"
+description = "Multi-camera temporary person re-identification for authorized video analytics"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+  "numpy>=1.26,<3",
+  "opencv-python-headless>=4.10",
+  "Pillow>=10",
+  "PyYAML>=6",
+  "torch>=2.2",
+  "torchvision>=0.17",
+  "timm>=1.0",
+  "ultralytics>=8.3",
+  "streamlit>=1.40",
+  "pandas>=2.2",
+]
+
+[project.scripts]
+argus-reid = "mcreid.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["mcreid*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

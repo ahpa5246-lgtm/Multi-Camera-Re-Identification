@@ -1,0 +1,16 @@
+transitions:
+  entrance:
+    hallway:
+      min_seconds: 0
+      max_seconds: 120
+  hallway:
+    entrance:
+      min_seconds: 0
+      max_seconds: 120
+    parking:
+      min_seconds: 5
+      max_seconds: 240
+  parking:
+    hallway:
+      min_seconds: 5
+      max_seconds: 240
