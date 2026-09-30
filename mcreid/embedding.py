@@ -27,7 +27,7 @@ class AppearanceEmbedder:
         from timm.data import create_transform, resolve_model_data_config
 
         self.torch = torch
-        self.device = device if device != "auto" else ("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = self._resolve_device(device, torch)
 
         try:
             self.model = timm.create_model(model_name, pretrained=True, num_classes=0)
@@ -40,6 +40,14 @@ class AppearanceEmbedder:
         self.model.eval().to(self.device)
         data_config = resolve_model_data_config(self.model)
         self.transform = create_transform(**data_config, is_training=False)
+
+    @staticmethod
+    def _resolve_device(requested: str, torch_module) -> str:
+        if requested == "auto":
+            return "cuda:0" if torch_module.cuda.is_available() else "cpu"
+        if requested.isdigit():
+            return f"cuda:{requested}"
+        return requested
 
     def extract(self, bgr_crop: np.ndarray) -> np.ndarray:
         from PIL import Image
