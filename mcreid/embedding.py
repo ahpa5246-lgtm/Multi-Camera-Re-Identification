@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Iterable
 
 import numpy as np
-from PIL import Image
 
 
 def l2_normalize(vector: np.ndarray) -> np.ndarray:
@@ -43,6 +42,8 @@ class AppearanceEmbedder:
         self.transform = create_transform(**data_config, is_training=False)
 
     def extract(self, bgr_crop: np.ndarray) -> np.ndarray:
+        from PIL import Image
+
         rgb = bgr_crop[:, :, ::-1]
         tensor = self.transform(Image.fromarray(rgb)).unsqueeze(0).to(self.device)
         with self.torch.inference_mode():
