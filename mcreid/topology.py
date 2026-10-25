@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -40,6 +41,8 @@ class CameraTopology:
         return cls(transitions=transitions, strict=strict)
 
     def allows(self, source: str, destination: str, gap_seconds: float) -> bool:
+        if not math.isfinite(gap_seconds) or gap_seconds < 0:
+            return False
         if source == destination:
             return gap_seconds >= 0
         window = self.transitions.get(source, {}).get(destination)
